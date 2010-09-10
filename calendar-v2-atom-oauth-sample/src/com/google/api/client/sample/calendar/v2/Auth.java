@@ -14,15 +14,16 @@
  * the License.
  */
 
-package com.google.api.client.sample.latitude;
+package com.google.api.client.sample.calendar.v2;
 
-import com.google.api.client.auth.oauth.OAuthAuthorizeTemporaryTokenUrl;
 import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
 import com.google.api.client.auth.oauth.OAuthHmacSigner;
 import com.google.api.client.auth.oauth.OAuthParameters;
+import com.google.api.client.googleapis.auth.oauth.GoogleOAuthAuthorizeTemporaryTokenUrl;
 import com.google.api.client.googleapis.auth.oauth.GoogleOAuthGetAccessToken;
 import com.google.api.client.googleapis.auth.oauth.GoogleOAuthGetTemporaryToken;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.sample.calendar.v2.model.CalendarUrl;
 
 import java.awt.Desktop;
 import java.awt.Desktop.Action;
@@ -35,17 +36,13 @@ import java.net.URI;
  */
 public class Auth {
 
-  private static final String APP_NAME = "Google Latitude API Java Client";
+  private static final String APP_NAME =
+      "Google Calendar Data API Java Client Sample";
 
   private static OAuthHmacSigner signer;
 
   private static OAuthCredentialsResponse credentials;
 
-  /**
-   * For details regarding authentication and authorization for Google Latitude,
-   * see <a href="http://code.google.com/apis/latitude/v1/using_rest.html#auth">Authentication
-   * and authorization</a>.
-   */
   static void authorize(HttpTransport transport) throws Exception {
     // callback server
     LoginCallbackServer callbackServer = null;
@@ -61,24 +58,14 @@ public class Auth {
       signer.clientSharedSecret = ClientCredentials.ENTER_CLIENT_SHARED_SECRET;
       temporaryToken.signer = signer;
       temporaryToken.consumerKey = ClientCredentials.ENTER_DOMAIN;
-      temporaryToken.scope = "https://www.googleapis.com/auth/latitude";
+      temporaryToken.scope = CalendarUrl.ROOT_URL;
       temporaryToken.displayName = APP_NAME;
       temporaryToken.callback = callbackServer.getCallbackUrl();
       OAuthCredentialsResponse tempCredentials = temporaryToken.execute();
       signer.tokenSharedSecret = tempCredentials.tokenSecret;
-      // authorization URL -- see
-      // http://code.google.com/apis/latitude/v1/using_rest.html#auth
-      OAuthAuthorizeTemporaryTokenUrl authorizeUrl =
-          new OAuthAuthorizeTemporaryTokenUrl(
-              "https://www.google.com/latitude/apps/OAuthAuthorizeToken");
-      // (required) The domain used to identify your application.
-      authorizeUrl.put("domain", ClientCredentials.ENTER_DOMAIN);
-      // (optional) The range of locations you want to access. Can be either
-      // current or all. If this parameter is omitted, current is assumed.
-      authorizeUrl.put("location", "all");
-      // (optional) The finest granularity of locations you want to access. Can
-      // be either city or best. If this parameter is omitted, city is assumed.
-      authorizeUrl.put("granularity", "best");
+      // authorization URL
+      GoogleOAuthAuthorizeTemporaryTokenUrl authorizeUrl =
+          new GoogleOAuthAuthorizeTemporaryTokenUrl();
       authorizeUrl.temporaryToken = tempToken = tempCredentials.token;
       String authorizationUrl = authorizeUrl.build();
       // launch in browser
@@ -103,7 +90,7 @@ public class Auth {
     GoogleOAuthGetAccessToken accessToken = new GoogleOAuthGetAccessToken();
     accessToken.temporaryToken = tempToken;
     accessToken.signer = signer;
-    accessToken.consumerKey = ClientCredentials.ENTER_DOMAIN;
+    accessToken.consumerKey = "anonymous";
     accessToken.verifier = verifier;
     credentials = accessToken.execute();
     signer.tokenSharedSecret = credentials.tokenSecret;
@@ -122,7 +109,7 @@ public class Auth {
 
   private static OAuthParameters createOAuthParameters() {
     OAuthParameters authorizer = new OAuthParameters();
-    authorizer.consumerKey = ClientCredentials.ENTER_DOMAIN;
+    authorizer.consumerKey = "anonymous";
     authorizer.signer = signer;
     authorizer.token = credentials.token;
     return authorizer;
