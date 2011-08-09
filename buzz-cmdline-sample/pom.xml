@@ -7,9 +7,9 @@
     <version>5</version>
   </parent>
   <groupId>com.google.apis-samples</groupId>
-  <artifactId>youtube-jsonc-sample</artifactId>
-  <version>1.2.0</version>
-  <name>Example for the YouTube API using JSON-C.</name>
+  <artifactId>buzz-cmdline-sample</artifactId>
+  <version>1.0.0</version>
+  <name>Example for the Google Buzz API v1 using JSON and OAuth 2.</name>
 
   <url>http://code.google.com/p/google-api-java-client/</url>
 
@@ -18,7 +18,7 @@
     <url>http://code.google.com/p/google-api-java-client/issues/list</url>
   </issueManagement>
 
-  <inceptionYear>2010</inceptionYear>
+  <inceptionYear>2011</inceptionYear>
 
   <prerequisites>
     <maven>2.0.9</maven>
@@ -29,6 +29,16 @@
     <developerConnection>scm:hg:https://samples.google-api-java-client.googlecode.com/hg/</developerConnection>
     <url>http://code.google.com/p/google-api-java-client/source/browse/?repo=samples</url>
   </scm>
+
+  <repositories>
+    <repository>
+      <id>googleapis</id>
+      <url>http://mavenrepo.google-api-java-client.googlecode.com/hg/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <developers>
     <developer>
@@ -66,7 +76,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>com.google.api.client.sample.youtube.YouTubeSample</mainClass>
+          <mainClass>com.google.api.services.samples.buzz.cmdline.BuzzSample</mainClass>
           <systemProperties>
             <systemProperty>
               <key>java.util.logging.config.file</key>
@@ -111,14 +121,14 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.5.0-beta</version>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-buzz</artifactId>
+      <version>v1-1.2.0-beta-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client</artifactId>
-      <version>1.5.0-beta</version>
+      <groupId>com.google.apis-samples</groupId>
+      <artifactId>cmdline-sample-shared</artifactId>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
   <properties>

@@ -7,9 +7,12 @@
     <version>5</version>
   </parent>
   <groupId>com.google.apis-samples</groupId>
-  <artifactId>youtube-jsonc-sample</artifactId>
+  <artifactId>discovery-cmdline-sample</artifactId>
   <version>1.2.0</version>
-  <name>Example for the YouTube API using JSON-C.</name>
+  <name>Example for the Google APIs Discovery Service v1 using JSON and OAuth 2</name>
+  <description>
+    This is a command-line tool that can discover and execute authenticated Google API methods.
+  </description>
 
   <url>http://code.google.com/p/google-api-java-client/</url>
 
@@ -18,7 +21,7 @@
     <url>http://code.google.com/p/google-api-java-client/issues/list</url>
   </issueManagement>
 
-  <inceptionYear>2010</inceptionYear>
+  <inceptionYear>2011</inceptionYear>
 
   <prerequisites>
     <maven>2.0.9</maven>
@@ -29,6 +32,16 @@
     <developerConnection>scm:hg:https://samples.google-api-java-client.googlecode.com/hg/</developerConnection>
     <url>http://code.google.com/p/google-api-java-client/source/browse/?repo=samples</url>
   </scm>
+
+  <repositories>
+    <repository>
+      <id>googleapis</id>
+      <url>http://mavenrepo.google-api-java-client.googlecode.com/hg/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <developers>
     <developer>
@@ -47,32 +60,25 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <archive>
+            <manifest>
+              <mainClass>com.google.api.services.samples.discovery.cmdline.DiscoverySample</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <mainClass>com.google.api.client.sample.youtube.YouTubeSample</mainClass>
-          <systemProperties>
-            <systemProperty>
-              <key>java.util.logging.config.file</key>
-              <value>logging.properties</value>
-            </systemProperty>
-          </systemProperties>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
       <plugin>
@@ -111,14 +117,14 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.5.0-beta</version>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-discovery</artifactId>
+      <version>v1-1.2.0-beta-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client</artifactId>
-      <version>1.5.0-beta</version>
+      <groupId>com.google.apis-samples</groupId>
+      <artifactId>cmdline-sample-shared</artifactId>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
   <properties>
